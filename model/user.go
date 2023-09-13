@@ -10,4 +10,5 @@ type User struct {
 
 	//Relationship
 	Transaction []Transaction
+	Product []Product
 }
