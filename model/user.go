@@ -4,12 +4,11 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Email string `gorm:"unique"`
-	Password string
-	Role string
+	Email      string `gorm:"unique"`
+	IsSupplier bool
+	Password   string
 
 	//Relationship
-	Transaction []Transaction
-	Product []Product
+	Supplier     Supplier `constraint:OnUpdate:CASCADE,OnDelete:SET NULL`
+	Transactions []Transaction
 }
-

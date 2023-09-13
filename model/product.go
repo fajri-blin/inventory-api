@@ -4,13 +4,12 @@ import "gorm.io/gorm"
 
 type Product struct {
 	gorm.Model
-	Name string
+	Name        string
 	Description string
-	Price int
-	Quantity int
+	Price       int
+	Quantity    int
 
-	//Cardinality
+	// Relationship
 	SupplierID uint
-	Transaction []Transaction
-
+	Transactions []Transaction
 }

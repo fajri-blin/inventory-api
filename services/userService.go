@@ -9,7 +9,7 @@ import (
 )
 
 type UserService interface {
-	Create(signupRequest request.SignUpRequest) (string, error)
+	Create(signupRequest request.SignUpRequest) (model.User, error)
 }
 
 type userService struct {
