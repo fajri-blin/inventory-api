@@ -12,3 +12,4 @@ type User struct {
 	Transaction []Transaction
 	Product []Product
 }
+
