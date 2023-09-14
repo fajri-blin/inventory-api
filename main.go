@@ -41,6 +41,7 @@ func main() {
 	// routerLogin := router.Group("/v1")
 
 	router.POST("/signup", userController.SignUp)
+	router.POST("/login", userController.Login)
 
 	router.Run(":8080")
 }
