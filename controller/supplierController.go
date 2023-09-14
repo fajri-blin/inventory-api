@@ -22,6 +22,43 @@ func NewSupplierController(supplierService services.SupplierService) *supplierCo
 	return &supplierController{supplierService}
 }
 
+func (h *supplierController) GetAllSupplier(c *gin.Context){
+	suppliers, err := h.supplierService.FindAllSupplier()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	var supplierResponses []response.SupplierResponse
+
+	for _, supplier := range suppliers{
+		supplierResponse := response.ConvertToSupplierResponseHandler(supplier)
+		supplierResponses = append(supplierResponses, supplierResponse)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": supplierResponses,
+	})
+}
+
+func (h *supplierController) GetSupplierByID(c *gin.Context){
+	ID, _ := strconv.Atoi(c.Param("id"))
+	supplier, err := h.supplierService.FindSupplierByID(ID)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	supplierResponse := response.ConvertToSupplierResponseHandler(supplier)
+	c.JSON(http.StatusOK, gin.H{
+		"data": supplierResponse,
+	})
+}
+
 func (h *supplierController) CreateCompanyController(c *gin.Context){
 	var supplierRequest request.CreateSupplierRequest
 

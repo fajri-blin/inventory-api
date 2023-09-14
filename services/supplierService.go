@@ -10,6 +10,8 @@ type SupplierService interface {
 	CreateSupplier(createSupplierRequest request.CreateSupplierRequest, UserID uint) (model.Supplier, error)
 	UpdateSupplier(ID int, supplierRequest request.UpdateSupplierRequest) (model.Supplier, error)
 	DeleteSupplier(ID int) (model.Supplier, error)
+	FindAllSupplier() ([]model.Supplier, error)
+	FindSupplierByID(ID int) (model.Supplier, error)
 }
 
 type supplierService struct {
@@ -19,6 +21,16 @@ type supplierService struct {
 
 func NewSupplierService(repository repository.SupplierRepository) *supplierService {
 	return &supplierService{repository}
+}
+
+func (s *supplierService) FindAllSupplier() ([]model.Supplier, error) {
+	suppliers, err := s.repository.FindAll()
+	return suppliers, err
+}
+
+func (s *supplierService) FindSupplierByID(ID int) (model.Supplier, error) {
+	supplier, err := s.repository.FindSupplierByID(ID)
+	return supplier, err
 }
 
 // CreateSupplier implements SupplierService.
