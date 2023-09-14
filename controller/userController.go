@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"inventory-api/model"
 	"inventory-api/services"
 	"inventory-api/utilities/request"
 	"inventory-api/utilities/response"
@@ -44,7 +43,7 @@ func (h *userController) SignUp(c *gin.Context){
 	err := c.ShouldBindJSON(&signupRequest)
 
 	if err != nil {
-		switch err.(type) {
+		switch err.(type){
 		case validator.ValidationErrors:
 			errorMessages := []string{}
 			for _, e := range err.(validator.ValidationErrors) {
@@ -81,7 +80,7 @@ func (h *userController) Login(c *gin.Context){
 
 	err := c.ShouldBindJSON(&loginRequest)
 	if err != nil {
-		switch err.(type) {
+		switch err.(type){
 		case validator.ValidationErrors:
 			errorMessages := []string{}
 			for _, e := range err.(validator.ValidationErrors) {
