@@ -8,17 +8,17 @@ import (
 
 type ProductService interface {
 	FindAll() ([]model.Product, error)
-	FindByID(ID int)(model.Product, error)
-	Create(producRequest request.ProductRequest)(model.Product, error)
-	Update(ID int, productRequest request.ProductRequest)(model.Product, error)
-	Delete(ID int)(model.Product, error)
+	FindByID(ID int) (model.Product, error)
+	Create(producRequest request.ProductRequest) (model.Product, error)
+	Update(ID int, productRequest request.ProductRequest) (model.Product, error)
+	Delete(ID int) (model.Product, error)
 }
 
-type service struct{
+type service struct {
 	repository repository.ProductRepository
 }
 
-func NewRepository( repository repository.ProductRepository) *service{
+func NewProductService(repository repository.ProductRepository) *service {
 	return &service{repository}
 }
 
@@ -27,18 +27,18 @@ func (s *service) FindAll() ([]model.Product, error) {
 	return products, err
 }
 
-func (s *service) FindByID(ID int)(model.Product, error) {
+func (s *service) FindByID(ID int) (model.Product, error) {
 	product, err := s.repository.FindByID(ID)
 	return product, err
 }
 
 // Create
-func (s *service) Create(productRequest request.ProductRequest)(model.Product, error) {
+func (s *service) Create(productRequest request.ProductRequest) (model.Product, error) {
 	product := model.Product{
-		Name: productRequest.Name,
+		Name:        productRequest.Name,
 		Description: productRequest.Description,
-		Price: productRequest.Price,
-		Quantity: productRequest.Quantity,
+		Price:       productRequest.Price,
+		Quantity:    productRequest.Quantity,
 	}
 
 	newProduct, err := s.repository.Create(product)
@@ -46,19 +46,19 @@ func (s *service) Create(productRequest request.ProductRequest)(model.Product, e
 }
 
 // Update
-func (s *service) Update(ID int, productRequest request.ProductRequest)(model.Product, error) {
+func (s *service) Update(ID int, productRequest request.ProductRequest) (model.Product, error) {
 	product, err := s.repository.FindByID(ID)
 
-	if productRequest.Name != ""  {
+	if productRequest.Name != "" {
 		product.Name = productRequest.Name
 	}
-	if productRequest.Description != ""  {
+	if productRequest.Description != "" {
 		product.Description = productRequest.Description
 	}
-	if productRequest.Price != 0  {
+	if productRequest.Price != 0 {
 		product.Price = productRequest.Price
 	}
-	if productRequest.Quantity != 0  {
+	if productRequest.Quantity != 0 {
 		product.Quantity = productRequest.Quantity
 	}
 
@@ -67,7 +67,7 @@ func (s *service) Update(ID int, productRequest request.ProductRequest)(model.Pr
 }
 
 // Delete
-func (s *service) Delete(ID int)(model.Product, error) {
+func (s *service) Delete(ID int) (model.Product, error) {
 	product, err := s.repository.FindByID(ID)
 	_, err = s.repository.Delete(product)
 
