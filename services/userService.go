@@ -4,7 +4,7 @@ import (
 	"errors"
 	"inventory-api/model"
 	"inventory-api/repository"
-	"inventory-api/utillities/request"
+	"inventory-api/utilities/request"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -33,8 +33,8 @@ func (s *userService) Create(signupRequest request.SignUpRequest) (model.User, e
 
 	//Save User
 	user := model.User{
-		Email:    signupRequest.Email,
-		Password: string(hash),
+		Email:      signupRequest.Email,
+		Password:   string(hash),
 		IsSupplier: false,
 	}
 
@@ -47,7 +47,7 @@ func (s *userService) Login(loginRequest request.LoginRequest) (string, error) {
 	user, err := s.repository.FindByEmail(loginRequest.Email)
 	if err != nil {
 		return "", err
-	}else if user.ID == 0 {
+	} else if user.ID == 0 {
 		return "", errors.New("invalid email or password")
 	}
 
@@ -59,9 +59,9 @@ func (s *userService) Login(loginRequest request.LoginRequest) (string, error) {
 
 	//sign token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": user.ID,
+		"id":         user.ID,
 		"isSupplier": user.IsSupplier,
-		"exp": time.Now().Add(time.Hour * 24).Unix(),
+		"exp":        time.Now().Add(time.Hour * 24).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte("SECRET"))
