@@ -4,7 +4,7 @@ import (
 	"errors"
 	"inventory-api/model"
 	"inventory-api/repository"
-	"inventory-api/utillities/request"
+	"inventory-api/utilities/request"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"

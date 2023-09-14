@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"inventory-api/services"
-	"inventory-api/utillities/request"
+	"inventory-api/utilities/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
