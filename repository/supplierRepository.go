@@ -24,7 +24,7 @@ func NewSupplierRepository(db *gorm.DB) *supplierRepository {
 
 // DeleteSupplier implements SupplierRepository.
 func (r *supplierRepository) DeleteSupplier(supplier model.Supplier) (model.Supplier, error) {
-	err := r.db.Delete(supplier).Error
+	err := r.db.Delete(&supplier).Error
 
 	return supplier, err
 }
