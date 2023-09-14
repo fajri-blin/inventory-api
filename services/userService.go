@@ -5,6 +5,7 @@ import (
 	"inventory-api/model"
 	"inventory-api/repository"
 	"inventory-api/utilities/request"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -14,6 +15,7 @@ import (
 type UserService interface {
 	CreateUser(signupRequest request.SignUpRequest) (model.User, error)
 	Login(loginRequest request.LoginRequest) (string, error)
+	DeleteUser(ID int) (model.User, error)
 }
 
 type userService struct {
@@ -42,6 +44,13 @@ func (s *userService) CreateUser(signupRequest request.SignUpRequest) (model.Use
 	return newUser, err
 }
 
+func (s *userService) DeleteUser(ID int) (model.User, error) {
+	user, err := s.repository.FindByID(ID)
+	_, err = s.repository.DeleteUser(user)
+
+	return user, err
+}
+
 func (s *userService) Login(loginRequest request.LoginRequest) (string, error) {
 	//get user
 	user, err := s.repository.FindByEmail(loginRequest.Email)
@@ -59,16 +68,15 @@ func (s *userService) Login(loginRequest request.LoginRequest) (string, error) {
 
 	//sign token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":         user.ID,
+		"sub":        user.ID,
 		"isSupplier": user.IsSupplier,
 		"exp":        time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err := token.SignedString([]byte("SECRET"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 	if err != nil {
 		return "", err
 	}
 
 	return tokenString, err
-
 }

@@ -14,11 +14,8 @@ type supplierService struct {
 	repository repository.SupplierRepository
 }
 
-func NewSupplierRepository(repository repository.SupplierRepository) *supplierService {
-	return &supplierService{repository}
-}
-
-func (s *supplierService) Create(createSupplierRequest request.CreateSupplierRequest, UserID uint) (model.Supplier, error) {
+// CreateSupplier implements SupplierService.
+func (s *supplierService) CreateSupplier(createSupplierRequest request.CreateSupplierRequest, UserID uint) (model.Supplier, error) {
 	supplier := model.Supplier{
 		CompanyName:    createSupplierRequest.CompanyName,
 		CompanyAddress: createSupplierRequest.CompanyAddress,
@@ -28,4 +25,8 @@ func (s *supplierService) Create(createSupplierRequest request.CreateSupplierReq
 
 	newSupplier, err := s.repository.CreateSupplier(supplier)
 	return newSupplier, err
+}
+
+func NewSupplierService(repository repository.SupplierRepository) *supplierService {
+	return &supplierService{repository}
 }

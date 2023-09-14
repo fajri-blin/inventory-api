@@ -41,6 +41,7 @@ func RequireAuth(c *gin.Context){
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
 		c.Set("jwtClaims", claims)
 	}
+	
 	//if the token is valid, proceed with the next middleware/handler
 	c.Next()
 }

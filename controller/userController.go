@@ -3,9 +3,12 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"inventory-api/model"
 	"inventory-api/services"
 	"inventory-api/utilities/request"
+	"inventory-api/utilities/response"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -17,6 +20,22 @@ type userController struct {
 
 func NewUserController(userService services.UserService) *userController {
 	return &userController{userService}
+}
+
+func (h *userController) DeleteUser(c *gin.Context){
+	ID, _ :=strconv.Atoi(c.Param("id"))
+	a, err := h.userService.DeleteUser(ID)
+	userResponse := response.ConvertToResponseHandler(a)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": userResponse,
+	})
 }
 
 func (h *userController) SignUp(c *gin.Context){

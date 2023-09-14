@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type supplierController struct {
@@ -17,7 +17,7 @@ type supplierController struct {
 }
 
 func NewSupplierController(supplierService services.SupplierService) *supplierController {
-	return &supplierController{supplierService: supplierService}
+	return &supplierController{supplierService}
 }
 
 func (h *supplierController) CreateCompanyController(c *gin.Context){
@@ -48,7 +48,9 @@ func (h *supplierController) CreateCompanyController(c *gin.Context){
 
 	jwtClaims, _ := c.Get("jwtClaims")
 	claims, _ := jwtClaims.(jwt.MapClaims)
-	userID, _ := claims["id"].(float64)
+	userID, _ := claims["sub"].(float64)
+
+	fmt.Println("User ID : ", userID)
 
 	supplier, err := h.supplierService.CreateSupplier(supplierRequest, uint(userID))
 	if err != nil {
