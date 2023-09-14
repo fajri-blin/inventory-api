@@ -31,8 +31,18 @@ func (s *userService) Create(signupRequest request.SignUpRequest) (model.User, e
 	user := model.User{
 		Email:    signupRequest.Email,
 		Password: string(hash),
+		IsSupplier: false,
 	}
 
 	newUser, err := s.repository.Create(user)
 	return newUser, err
+}
+
+func (s *userService) Login(loginRequest request.LoginRequest) ([]model.User, error) {
+	//get user
+	user, err := s.repository.FindByEmail(loginRequest.Email)
+	if err != nil {
+		return "", err
+	}
+
 }

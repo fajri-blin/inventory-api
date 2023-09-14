@@ -38,9 +38,9 @@ func main() {
 	router := gin.Default()
 
 	//Routing Grouping
-	routerV1 := router.Group("/v1")
+	// routerLogin := router.Group("/v1")
 
-	routerV1.POST("/signup", userController.SignUp)
+	router.POST("/signup", userController.SignUp)
 
-	router.Run()
+	router.Run(":8080")
 }
