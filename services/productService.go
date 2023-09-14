@@ -8,17 +8,17 @@ import (
 
 type ProductService interface {
 	FindAll() ([]model.Product, error)
-	FindByID()(model.Product, error)
-	Create()(model.Product, error)
-	Update()(model.Product, error)
-	Delete()(model.Product, error)
+	FindByID(ID int)(model.Product, error)
+	Create(producRequest request.ProductRequest)(model.Product, error)
+	Update(ID int, productRequest request.ProductRequest)(model.Product, error)
+	Delete(ID int)(model.Product, error)
 }
 
 type service struct{
-	repository repository.Repository
+	repository repository.ProductRepository
 }
 
-func NewRepository( repository repository.Repository) *service{
+func NewRepository( repository repository.ProductRepository) *service{
 	return &service{repository}
 }
 
@@ -73,4 +73,3 @@ func (s *service) Delete(ID int)(model.Product, error) {
 
 	return product, err
 }
->>>>>>> Stashed changes
