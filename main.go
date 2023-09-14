@@ -27,12 +27,15 @@ func main() {
 
 	//adding Repository
 	userRepository := repository.NewUserRepository(db)
+	trxRepo := repository.NewTransactionRepository(db)
 
 	//adding Service
 	UserService := services.NewUserService(userRepository)
+	trxService := services.NewTransactionService(trxRepo)
 
 	//adding Controller
 	userController := controller.NewUserController(UserService)
+	trxController := controller.NewTransactionController(trxService)
 
 	//Routing
 	router := gin.Default()
@@ -42,6 +45,8 @@ func main() {
 
 	router.POST("/signup", userController.SignUp)
 	router.POST("/login", userController.Login)
+
+	router.POST("/transaction", trxController.PostTrxController)
 
 	router.Run(":8080")
 }
