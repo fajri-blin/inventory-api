@@ -8,12 +8,12 @@ import (
 
 type Transaction struct {
 	gorm.Model
-	Transaction     string
+	Type            string
 	Quantity        int
 	TransactionDate time.Time
 
 	//Relationship
-	UserID uint
+	UserID     uint
 	ProductID  uint
 	SupplierID uint
 }
