@@ -39,6 +39,7 @@ func (s *service) Create(productRequest request.ProductRequest) (model.Product, 
 		Description: productRequest.Description,
 		Price:       productRequest.Price,
 		Quantity:    productRequest.Quantity,
+		SupplierID: productRequest.SupplierID,
 	}
 
 	newProduct, err := s.repository.Create(product)
