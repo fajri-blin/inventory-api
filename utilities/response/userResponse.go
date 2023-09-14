@@ -8,7 +8,7 @@ type UserResponse struct {
 }
 
 
-func ConvertToResponseHandler(user model.User) UserResponse {
+func ConvertToUserResponseHandler(user model.User) UserResponse {
 	return UserResponse{
 		ID : user.ID,
 		Email : user.Email, 
