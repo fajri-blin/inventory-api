@@ -84,18 +84,17 @@ func (p *productController) Create(c *gin.Context) {
 			})
 			return
 		}
-
-		product, err := p.productService.Create(productRequest)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"errors": err,
-			})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{
-			"data": product,
-		})
 	}
+	product, err := p.productService.Create(productRequest)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": product,
+	})
 }
 
 // Update
