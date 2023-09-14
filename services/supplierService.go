@@ -7,7 +7,7 @@ import (
 )
 
 type SupplierService interface {
-	Create(createSupplierRequest request.CreateSupplierRequest, UserID uint) (model.Supplier, error)
+	CreateSupplier(createSupplierRequest request.CreateSupplierRequest, UserID uint) (model.Supplier, error)
 }
 
 type supplierService struct {
@@ -26,6 +26,6 @@ func (s *supplierService) Create(createSupplierRequest request.CreateSupplierReq
 		UserID:         UserID,
 	}
 
-	newSupplier, err := s.repository.Create(supplier)
+	newSupplier, err := s.repository.CreateSupplier(supplier)
 	return newSupplier, err
 }

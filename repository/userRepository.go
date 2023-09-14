@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository interface {
-	Create(user model.User) (model.User, error)
+	CreateUser(user model.User) (model.User, error)
 	FindByEmail(email string) (model.User, error)
 }
 
@@ -19,7 +19,7 @@ func NewUserRepository(db *gorm.DB) *userRepository {
 	return &userRepository{db}
 }
 
-func (r *userRepository) Create(user model.User) (model.User, error) {
+func (r *userRepository) CreateUser(user model.User) (model.User, error) {
 	err:= r.db.Create(&user).Error
 	return user, err
 }

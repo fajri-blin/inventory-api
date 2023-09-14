@@ -44,7 +44,7 @@ func (h *userController) SignUp(c *gin.Context){
 		}
 	}
 
-	user, err := h.userService.Create(signupRequest)
+	user, err := h.userService.CreateUser(signupRequest)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,

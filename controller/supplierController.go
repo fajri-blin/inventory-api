@@ -50,7 +50,7 @@ func (h *supplierController) CreateCompanyController(c *gin.Context){
 	claims, _ := jwtClaims.(jwt.MapClaims)
 	userID, _ := claims["id"].(float64)
 
-	supplier, err := h.supplierService.Create(supplierRequest, uint(userID))
+	supplier, err := h.supplierService.CreateSupplier(supplierRequest, uint(userID))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,

@@ -12,7 +12,7 @@ import (
 )
 
 type UserService interface {
-	Create(signupRequest request.SignUpRequest) (model.User, error)
+	CreateUser(signupRequest request.SignUpRequest) (model.User, error)
 	Login(loginRequest request.LoginRequest) (string, error)
 }
 
@@ -24,7 +24,7 @@ func NewUserService(repository repository.UserRepository) *userService {
 	return &userService{repository}
 }
 
-func (s *userService) Create(signupRequest request.SignUpRequest) (model.User, error) {
+func (s *userService) CreateUser(signupRequest request.SignUpRequest) (model.User, error) {
 	//Hash Password
 	hash, err := bcrypt.GenerateFromPassword([]byte(signupRequest.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -38,7 +38,7 @@ func (s *userService) Create(signupRequest request.SignUpRequest) (model.User, e
 		IsSupplier: false,
 	}
 
-	newUser, err := s.repository.Create(user)
+	newUser, err := s.repository.CreateUser(user)
 	return newUser, err
 }
 
