@@ -48,10 +48,10 @@ func main() {
 	//Routing
 	router := gin.Default()
 
-	// Grouping User
-	routerUser := router.Group("/user", middleware.RequireAuth)
-	routerUser.POST("/signup", userController.SignUp)
-	routerUser.POST("/login", userController.Login)
+	// Grouping Auth
+	// routerUser := router.Group("/user", middleware.RequireAuth)
+	router.POST("/signup", userController.SignUp)
+	router.POST("/login", userController.Login)
 
 	// Grouping Product
 	routerProduct := router.Group("/product", middleware.RequireAuth)
@@ -64,10 +64,10 @@ func main() {
 	// Grouping Supplier
 	routerSupplier := router.Group("/supplier", middleware.RequireAuth)
 	routerSupplier.POST("/create", supplierController.CreateCompanyController)
-	/* 	routerSupplier.PUT("/update/:id", supplierController.Update)
-	   	routerSupplier.DELETE("/delete/:id", supplierController.Delete)
-	   	routerSupplier.GET("/", supplierController.GetAll)
-	   	routerSupplier.GET("/:id", supplierController.GetByID) */
+	routerSupplier.PUT("/update/:id", supplierController.UpdateSupplier)
+	routerSupplier.DELETE("/delete/:id", supplierController.DeleteSupplier)
+	routerSupplier.GET("/", supplierController.GetAllSupplier)
+	routerSupplier.GET("/:id", supplierController.GetSupplierByID)
 
 	// Grouping Transaction
 	routerTrx := router.Group("/transaction", middleware.RequireAuth)

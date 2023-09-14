@@ -143,7 +143,7 @@ func (h *supplierController) UpdateSupplier(c *gin.Context){
 	})
 }
 
-func (h *supplierController) DeleteUser(c *gin.Context){
+func (h *supplierController) DeleteSupplier(c *gin.Context){
 	ID, _ :=strconv.Atoi(c.Param("id"))
 	a, err := h.supplierService.DeleteSupplier(ID)
 	supplierResponse := response.ConvertToSupplierResponseHandler(a)
