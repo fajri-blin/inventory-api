@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"inventory-api/services"
-	"inventory-api/utillities/request"
-	"inventory-api/utillities/response"
+	"inventory-api/utilities/request"
+	"inventory-api/utilities/response"
 	"net/http"
 	"strconv"
 
