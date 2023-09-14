@@ -98,10 +98,10 @@ func (transaction *transactionController) GetByID(c *gin.Context) {
 		return
 	}
 
-	productResponse := response.ConvertToTransactionResponse(data)
+	transactionResponse := response.ConvertToTransactionResponse(data)
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": productResponse,
+		"data": transactionResponse,
 	})
 }
 

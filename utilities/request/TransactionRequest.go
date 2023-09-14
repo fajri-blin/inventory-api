@@ -1,10 +1,10 @@
 package request
 
 type CreateTransaction struct {
-	Type       string `binding:"required"`
-	ProductID  uint    `binding:"required,number"`
-	SupplierID uint    `binding:"required,number"`
-	Quantity   int    `binding:"required,number"`
+	Type       string `json:"type" binding:"required"`
+	ProductID  uint   `json:"product_id" binding:"required,number"`
+	SupplierID uint   `json:"supplier_id" binding:"required,number"`
+	Quantity   int    `json:"quantity" binding:"required,number"`
 }
 
 type UpdateTransaction struct {
