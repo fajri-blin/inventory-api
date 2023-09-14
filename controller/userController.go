@@ -24,7 +24,7 @@ func NewUserController(userService services.UserService) *userController {
 func (h *userController) DeleteUser(c *gin.Context){
 	ID, _ :=strconv.Atoi(c.Param("id"))
 	a, err := h.userService.DeleteUser(ID)
-	userResponse := response.ConvertToResponseHandler(a)
+	userResponse := response.ConvertToUserResponseHandler(a)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
