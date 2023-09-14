@@ -5,6 +5,7 @@ import (
 	"inventory-api/initiliazer"
 	"inventory-api/repository"
 	"inventory-api/services"
+	"inventory-api/middleware"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -41,10 +42,12 @@ func main() {
 	router := gin.Default()
 
 	//Routing Grouping
-	// routerLogin := router.Group("/v1")
+	routerLogin := router.Group("/user", middleware.RequireAuth)
 
 	router.POST("/signup", userController.SignUp)
 	router.POST("/login", userController.Login)
+
+	routerLogin.POST("/create/supplier")
 
 	router.POST("/transaction", trxController.PostTrxController)
 

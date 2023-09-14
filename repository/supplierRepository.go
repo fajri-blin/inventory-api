@@ -7,7 +7,8 @@ import (
 )
 
 type SupplierRepository interface {
-	Create(supplier model.Supplier) (model.Supplier, error)
+	CreateSupplier(supplier model.Supplier) (model.Supplier, error)
+	FindSupplierByID(id int) (model.Supplier, error)
 }
 
 type supplierRepository struct {
@@ -18,3 +19,14 @@ func NewSupplierRepository(db *gorm.DB) *supplierRepository {
 	return &supplierRepository{db}
 }
 
+func (r *supplierRepository) CreateSupplier(supplier model.Supplier) (model.Supplier, error) {
+	err := r.db.Create(&supplier).Error
+	return supplier, err
+}
+
+func (r *supplierRepository) FindSupplierByID(id int) (model.Supplier, error) {
+	var supplier model.Supplier
+
+	err := r.db.Find(&supplier, id).Error
+	return supplier, err
+}
