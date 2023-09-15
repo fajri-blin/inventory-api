@@ -77,6 +77,7 @@ func main() {
 	routerTrx.DELETE("/delete/:id", transactionController.Delete)
 	routerTrx.GET("/", transactionController.GetAll)
 	routerTrx.GET("/:id", transactionController.GetByID)
+	routerTrx.GET("/search/:id", transactionController.FindBySupplierID)
 
 	// Run
 	router.Run(":8080")

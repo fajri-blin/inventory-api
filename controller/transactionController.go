@@ -93,6 +93,35 @@ func (trx *transactionController) GetAll(c *gin.Context) {
 	})
 }
 
+//Find Transactions By SupplierID
+func (trx *transactionController) FindBySupplierID(c *gin.Context) {
+	ID, _ := strconv.Atoi(c.Param("id"))
+	transaction, err := trx.transactionService.FindBySupplierID(int(ID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	if len(transaction) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":"There's no Transactions in Database",
+		})
+		return
+	}
+	
+	var transactionsResponse []response.TransactionResponse
+	for _, transaction := range transaction {
+		transactionResponse := response.ConvertToTransactionResponse(transaction)
+		transactionsResponse = append(transactionsResponse, transactionResponse)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": transactionsResponse,
+	})
+}
+
 // Get ByID
 func (transaction *transactionController) GetByID(c *gin.Context) {
 	ID, _ := strconv.Atoi(c.Param("id"))

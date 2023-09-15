@@ -10,6 +10,7 @@ type TransactionRepository interface {
 	FindAll() ([]model.Transaction, error)
 	FindByUserID(UserID uint) ([]model.Transaction, error)
 	FindByID(ID int) (model.Transaction, error)
+	FindBySupplierID(SupplierID int) ([]model.Transaction, error)
 	Create(transaction model.Transaction) (model.Transaction, error)
 	Update(transation model.Transaction) (model.Transaction, error)
 	Delete(transaction model.Transaction) (model.Transaction, error)
@@ -39,6 +40,13 @@ func (r *transactionRepository) FindByID(ID int) (model.Transaction, error) {
 	var transaction model.Transaction
 	err := r.db.First(&transaction, ID).Error
 	return transaction, err
+}
+
+//Find Transactions By SupplierID
+func (r *transactionRepository) FindBySupplierID(SupplierID int) ([]model.Transaction, error) {
+	var transactions []model.Transaction
+	err := r.db.Where("supplier_id = ?", SupplierID).Find(&transactions).Error
+	return transactions, err
 }
 
 func (r *transactionRepository) Create(transaction model.Transaction) (model.Transaction, error) {

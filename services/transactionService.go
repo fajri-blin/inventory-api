@@ -10,6 +10,7 @@ type TransactionService interface {
 	FindAll() ([]model.Transaction, error)
 	FindByUserID(UserID uint) ([]model.Transaction, error)
 	FindByID(ID int) (model.Transaction, error)
+	FindBySupplierID(SupplierID int) ([]model.Transaction, error)
 	Create(transactionRequest request.CreateTransaction, UserID uint) (model.Transaction, error)
 	Update(ID int, transactionRequest request.UpdateTransaction) (model.Transaction, error)
 	Delete(ID int) (model.Transaction, error)
@@ -41,6 +42,12 @@ func (s *transactionService) FindByUserID(UserID uint) ([]model.Transaction, err
 func (s *transactionService) FindByID(ID int) (model.Transaction, error) {
 	trx, err := s.transactionRepository.FindByID(ID)
 	return trx, err
+}
+
+//Find transactions by SupplierID
+func (s *transactionService) FindBySupplierID(SupplierID int) ([]model.Transaction, error) {
+	transactions, err := s.transactionRepository.FindBySupplierID(SupplierID)
+	return transactions, err
 }
 
 func (s *transactionService) Create(transaction request.CreateTransaction, UserID uint) (model.Transaction, error) {
