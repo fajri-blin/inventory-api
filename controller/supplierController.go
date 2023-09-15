@@ -31,6 +31,14 @@ func (h *supplierController) GetAllSupplier(c *gin.Context){
 		return
 	}
 
+	// Check if the suppliers slice is empty.
+	if len(suppliers) == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "No suppliers found",
+		})
+		return
+	}
+
 	var supplierResponses []response.SupplierResponse
 
 	for _, supplier := range suppliers{
@@ -49,6 +57,14 @@ func (h *supplierController) GetSupplierByID(c *gin.Context){
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err,
+		})
+		return
+	}
+
+	if supplier.ID == 0 {
+		result := fmt.Sprintf("Supplier with ID %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result,
 		})
 		return
 	}
@@ -131,6 +147,15 @@ func (h *supplierController) UpdateSupplier(c *gin.Context){
 
 	ID, _ := strconv.Atoi(c.Param("id"))
 	s, err := h.supplierService.UpdateSupplier(ID, supplierRequest)
+
+	if s.ID == 0 {
+		result := fmt.Sprintf("Supplier with ID %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result,
+		})
+		return
+	}
+
 	supplierResponse := response.ConvertToSupplierResponseHandler(s)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -146,6 +171,15 @@ func (h *supplierController) UpdateSupplier(c *gin.Context){
 func (h *supplierController) DeleteSupplier(c *gin.Context){
 	ID, _ :=strconv.Atoi(c.Param("id"))
 	a, err := h.supplierService.DeleteSupplier(ID)
+
+	if a.ID == 0 {
+		result := fmt.Sprintf("Supplier with ID %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result,
+		})
+		return
+	}
+
 	supplierResponse := response.ConvertToSupplierResponseHandler(a)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

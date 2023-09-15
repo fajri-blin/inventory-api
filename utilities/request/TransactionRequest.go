@@ -8,8 +8,8 @@ type CreateTransaction struct {
 }
 
 type UpdateTransaction struct {
-	Type       string
-	ProductID  uint
-	SupplierID uint
-	Quantity   int
+	Type       string `json:"type" binding:"required"`
+	ProductID  uint `json:"product_id" binding:"required"`
+	SupplierID uint `json:"supplier_id" binding:"required"`
+	Quantity   int `json:"quantity" binding:"required"`
 }

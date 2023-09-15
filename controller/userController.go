@@ -21,9 +21,17 @@ func NewUserController(userService services.UserService) *userController {
 	return &userController{userService}
 }
 
-func (h *userController) DeleteUser(c *gin.Context){
-	ID, _ :=strconv.Atoi(c.Param("id"))
+func (h *userController) DeleteUser(c *gin.Context) {
+	ID, _ := strconv.Atoi(c.Param("id"))
 	a, err := h.userService.DeleteUser(ID)
+
+	if a.ID == 0 {
+		resultErr := fmt.Sprintf("Account with ID %v not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": resultErr,
+		})
+	}
+
 	userResponse := response.ConvertToUserResponseHandler(a)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -37,13 +45,13 @@ func (h *userController) DeleteUser(c *gin.Context){
 	})
 }
 
-func (h *userController) SignUp(c *gin.Context){
+func (h *userController) SignUp(c *gin.Context) {
 	var signupRequest request.SignUpRequest
 
 	err := c.ShouldBindJSON(&signupRequest)
 
 	if err != nil {
-		switch err.(type){
+		switch err.(type) {
 		case validator.ValidationErrors:
 			errorMessages := []string{}
 			for _, e := range err.(validator.ValidationErrors) {
@@ -75,12 +83,12 @@ func (h *userController) SignUp(c *gin.Context){
 	})
 }
 
-func (h *userController) Login(c *gin.Context){
+func (h *userController) Login(c *gin.Context) {
 	var loginRequest request.LoginRequest
 
 	err := c.ShouldBindJSON(&loginRequest)
 	if err != nil {
-		switch err.(type){
+		switch err.(type) {
 		case validator.ValidationErrors:
 			errorMessages := []string{}
 			for _, e := range err.(validator.ValidationErrors) {
@@ -108,8 +116,8 @@ func (h *userController) Login(c *gin.Context){
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data":map[string]string{
-			"token" : tokenString,
+		"data": map[string]string{
+			"token": tokenString,
 		},
 	})
 }

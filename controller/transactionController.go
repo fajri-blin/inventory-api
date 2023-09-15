@@ -75,6 +75,13 @@ func (trx *transactionController) GetAll(c *gin.Context) {
 		return
 	}
 
+	if len(transaction) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":"There's no Transactions in Database",
+		})
+		return
+	}
+
 	var transactionsResponse []response.TransactionResponse
 	for _, transaction := range transaction {
 		transactionResponse := response.ConvertToTransactionResponse(transaction)
@@ -96,6 +103,13 @@ func (transaction *transactionController) GetByID(c *gin.Context) {
 			"errors": err,
 		})
 		return
+	}
+
+	if data.ID == 0 {
+		result := fmt.Sprintf("Transaction with ID %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error" : result,
+		})
 	}
 
 	transactionResponse := response.ConvertToTransactionResponse(data)
@@ -133,6 +147,14 @@ func (trx *transactionController) Update(c *gin.Context) {
 
 	ID, _ := strconv.Atoi(c.Param("id"))
 	data, err := trx.transactionService.Update(ID, transactionRequest)
+	if data.ID == 0 {
+		resultErr := fmt.Sprintf("Transaction with ID %d not found", ID)
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": resultErr,
+			})
+		return
+	}
+
 	transactionResponse := response.ConvertToTransactionResponse(data)
 
 	if err != nil {
@@ -151,6 +173,15 @@ func (trx *transactionController) Update(c *gin.Context) {
 func (trx *transactionController) Delete(c *gin.Context) {
 	ID, _ := strconv.Atoi(c.Param("id"))
 	data, err := trx.transactionService.Delete(ID)
+
+	if data.ID == 0 {
+		result := fmt.Sprintf("Transaction with ID %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result,
+		})
+	}
+
+
 	transactionResponse := response.ConvertToTransactionResponse(data)
 
 	if err != nil {

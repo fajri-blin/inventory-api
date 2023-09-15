@@ -31,6 +31,14 @@ func (p *productController) GetAll(c *gin.Context) {
 		return
 	}
 
+	//check if there's no products in database
+	if len(products) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":"There's no products in database",
+		})
+		return
+	}
+
 	var productsResponse []response.ProductResponse
 	for _,p := range products{
 		productResponse := response.ConvertToProductResponse(p)
@@ -50,6 +58,13 @@ func (p *productController) GetByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errors": err,
+		})
+		return
+	}
+
+	if pc.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":"Product not found",
 		})
 		return
 	}
@@ -125,6 +140,16 @@ func (p *productController) Update(c *gin.Context) {
 
 	ID, _:= strconv.Atoi(c.Param("id"))
 	pc, err := p.productService.Update(ID, productRequest)
+
+	// check if there's no product on certain ID founded in the database
+	if pc.ID == 0 {
+		result := fmt.Sprintf("Product with ID: %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error": result,
+		})
+		return
+	}
+
 	productResponse := response.ConvertToProductResponse(pc)
 
 	if err != nil {
@@ -143,6 +168,15 @@ func (p *productController) Update(c *gin.Context) {
 func (p *productController) Delete(c *gin.Context) {
 	ID, _:= strconv.Atoi(c.Param("id"))
 	pc, err := p.productService.Delete(ID)
+
+	if pc.ID == 0 {
+		result := fmt.Sprintf("Product with ID: %d not found", ID)
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": result,
+		})
+		return
+	}
+
 	productResponse := response.ConvertToProductResponse(pc)
 
 	if err != nil{
