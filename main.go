@@ -60,7 +60,7 @@ func main() {
 	routerProduct.DELETE("/delete/:id", productController.Delete)
 	routerProduct.GET("/", productController.GetAll)
 	routerProduct.GET("/:id", productController.GetByID)
-	routerProduct.GET("/search/:id", productController.GetBySupplierID)
+	routerProduct.GET("/search/supplier/:id", productController.GetBySupplierID)
 
 	// Grouping Supplier
 	routerSupplier := router.Group("/supplier", middleware.RequireAuth)
@@ -77,7 +77,7 @@ func main() {
 	routerTrx.DELETE("/delete/:id", transactionController.Delete)
 	routerTrx.GET("/", transactionController.GetAll)
 	routerTrx.GET("/:id", transactionController.GetByID)
-	routerTrx.GET("/search/:id", transactionController.FindBySupplierID)
+	routerTrx.GET("/search/transaction/:id", transactionController.FindBySupplierID)
 
 	// Run
 	router.Run(":8080")
