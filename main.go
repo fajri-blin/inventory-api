@@ -60,6 +60,7 @@ func main() {
 	routerProduct.DELETE("/delete/:id", productController.Delete)
 	routerProduct.GET("/", productController.GetAll)
 	routerProduct.GET("/:id", productController.GetByID)
+	routerProduct.GET("/search/:id", productController.GetBySupplierID)
 
 	// Grouping Supplier
 	routerSupplier := router.Group("/supplier", middleware.RequireAuth)

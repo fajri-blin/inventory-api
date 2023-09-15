@@ -76,6 +76,34 @@ func (p *productController) GetByID(c *gin.Context) {
 	})
 }
 
+//Get Product By Supplier ID
+func (p *productController) GetBySupplierID(c *gin.Context) {
+	ID, _ := strconv.Atoi(c.Param("id"))
+	
+	products, err := p.productService.FindBySupplierID(int(ID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	if len(products) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error":"Product not found",
+		})
+		return
+	}
+	var productsResponse []response.ProductResponse
+	for _,p := range products{
+		productResponse := response.ConvertToProductResponse(p)
+		productsResponse = append(productsResponse, productResponse)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": productsResponse,
+	})
+}
+
 // Create
 func (p *productController) Create(c *gin.Context) {
 	var  productRequest request.ProductRequest

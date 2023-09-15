@@ -9,6 +9,7 @@ import (
 type ProductRepository interface {
 	FindAll() ([]model.Product, error)
 	FindByID(ID int) (model.Product, error)
+	FindBySupplierID(supplierID int) ([]model.Product, error)
 	Create(product model.Product) (model.Product, error)
 	Update(product model.Product) (model.Product, error)
 	Delete(product model.Product) (model.Product, error)
@@ -32,6 +33,13 @@ func (r *productRepository) FindByID(ID int) (model.Product, error) {
 	var product model.Product
 	err := r.db.First(&product, ID).Error
 	return product, err
+}
+
+// Find Product by Supplier ID
+func (r *productRepository) FindBySupplierID(supplierID int) ([]model.Product, error) {
+	var products []model.Product
+	err := r.db.Where("supplier_id = ?", supplierID).Find(&products).Error
+	return products, err
 }
 
 // Create
