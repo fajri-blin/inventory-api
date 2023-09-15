@@ -6,4 +6,5 @@ type ProductResponse struct {
 	Description string `json:"description"`
 	Price       int    `json:"price"`
 	Quantity    int    `json:"quantity"`
+	SupplierID uint `json:supplier_id`
 }

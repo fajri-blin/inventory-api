@@ -9,5 +9,6 @@ func ConvertToProductResponse(p model.Product) ProductResponse {
 		Description: p.Description,
 		Price:       p.Price,
 		Quantity:    p.Quantity,
+		SupplierID:  p.SupplierID,
 	}
 }
