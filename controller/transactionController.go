@@ -99,7 +99,7 @@ func (trx *transactionController) FindBySupplierID(c *gin.Context) {
 	transaction, err := trx.transactionService.FindBySupplierID(int(ID))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -110,7 +110,7 @@ func (trx *transactionController) FindBySupplierID(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	var transactionsResponse []response.TransactionResponse
 	for _, transaction := range transaction {
 		transactionResponse := response.ConvertToTransactionResponse(transaction)
@@ -129,7 +129,7 @@ func (transaction *transactionController) GetByID(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -188,7 +188,7 @@ func (trx *transactionController) Update(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -215,7 +215,7 @@ func (trx *transactionController) Delete(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}

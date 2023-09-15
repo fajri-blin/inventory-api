@@ -26,7 +26,7 @@ func (h *supplierController) GetAllSupplier(c *gin.Context){
 	suppliers, err := h.supplierService.FindAllSupplier()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -56,7 +56,7 @@ func (h *supplierController) GetSupplierByID(c *gin.Context){
 	supplier, err := h.supplierService.FindSupplierByID(ID)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -110,7 +110,7 @@ func (h *supplierController) CreateCompanyController(c *gin.Context){
 	supplier, err := h.supplierService.CreateSupplier(supplierRequest, uint(userID))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 	}
 
@@ -159,7 +159,7 @@ func (h *supplierController) UpdateSupplier(c *gin.Context){
 	supplierResponse := response.ConvertToSupplierResponseHandler(s)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 	}
 
@@ -183,7 +183,7 @@ func (h *supplierController) DeleteSupplier(c *gin.Context){
 	supplierResponse := response.ConvertToSupplierResponseHandler(a)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}

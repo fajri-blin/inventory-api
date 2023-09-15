@@ -35,7 +35,7 @@ func (h *userController) DeleteUser(c *gin.Context) {
 	userResponse := response.ConvertToUserResponseHandler(a)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}
@@ -73,7 +73,7 @@ func (h *userController) SignUp(c *gin.Context) {
 	user, err := h.userService.CreateUser(signupRequest)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": err.Error(),
 		})
 		return
 	}

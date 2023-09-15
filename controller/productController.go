@@ -26,7 +26,7 @@ func (p *productController) GetAll(c *gin.Context) {
 	products, err := p.productService.FindAll()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -57,7 +57,7 @@ func (p *productController) GetByID(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -209,7 +209,7 @@ func (p *productController) Delete(c *gin.Context) {
 
 	if err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": err,
+			"errors": err.Error(),
 		})
 		return
 	}
